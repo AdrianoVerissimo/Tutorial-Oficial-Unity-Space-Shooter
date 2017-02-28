@@ -15,6 +15,17 @@ public class PlayerController : MonoBehaviour {
 	public float speed = 1; //velocidade de movimentação da nave
 	public float tilt = 1; //usado para tombar a nave ao se mover horizontalmente
 	public Boundary boundary; //limites de movimentação
+	public GameObject shot;
+	public Transform shotSpawn;
+	public float fireRate, nextFire;
+
+	void Update()
+	{
+		if (Input.GetButton ("Fire1") && Time.time >= nextFire) {
+			nextFire = Time.time + fireRate;
+			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+		}
+	}
 
 	void FixedUpdate()
 	{
