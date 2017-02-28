@@ -2,16 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//classe utilizada para definir limites de movimentação
+[System.Serializable]
+public class Boundary
+{
+	public float xMin, xMax, zMin, zMax;
+}
+
+//classe com controles e ações da nave
 public class PlayerController : MonoBehaviour {
 
-	public float speed = 1;
+	public float speed = 1; //velocidade de movimentação da nave
+	public float tilt = 1; //usado para tombar a nave ao se mover horizontalmente
+	public Boundary boundary; //limites de movimentação
 
 	void FixedUpdate()
 	{
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
+		float moveHorizontal = Input.GetAxis ("Horizontal"); //input horizontal
+		float moveVertical = Input.GetAxis ("Vertical"); //input vertical
 
+		//define a movimentação da nave de acordo com os inputs e velocidade
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 		GetComponent<Rigidbody> ().velocity = movement * speed;
+
+		//limita as áreas em que a nave pode ir
+		//Mathf.Clamp() arredonda um valor de acordo com valores mínimos e máximos passados por parâmetro
+		GetComponent<Rigidbody> ().position = new Vector3
+		(
+			Mathf.Clamp(GetComponent<Rigidbody> ().position.x, boundary.xMin, boundary.xMax),
+			0.0f,
+			Mathf.Clamp(GetComponent<Rigidbody> ().position.z, boundary.zMin, boundary.zMax)
+		);
+
+		//faz a nave rotacionar horizontalmente de acordo com a velocidade do eixo X
+		GetComponent<Rigidbody> ().rotation = Quaternion.Euler (
+		0.0f,
+		0.0f,
+		GetComponent<Rigidbody> ().velocity.x * -tilt);
 	}
 }
