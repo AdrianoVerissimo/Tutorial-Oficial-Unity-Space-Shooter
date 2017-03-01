@@ -21,9 +21,10 @@ public class PlayerController : MonoBehaviour {
 
 	void Update()
 	{
+		//se apertou botão e já passou tempo suficiente para atirar
 		if (Input.GetButton ("Fire1") && Time.time >= nextFire) {
-			nextFire = Time.time + fireRate;
-			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+			nextFire = Time.time + fireRate; //atualiza tempo necessário para atirar
+			Instantiate (shot, shotSpawn.position, shotSpawn.rotation); //instancia o tiro
 		}
 	}
 
