@@ -10,9 +10,14 @@ public class GameController : MonoBehaviour {
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
+	public GUIText scoreText;
+
+	private int score;
 
 	void Start()
 	{
+		score = 0;
+		UpdateScore ();
 		//executa uma função em paralelo, sem travar a execução até que ela seja terminada
 		StartCoroutine(SpawnWaves ());
 	}
@@ -38,5 +43,17 @@ public class GameController : MonoBehaviour {
 			//espera x segundos até começar outra onda de asteróides
 			yield return new WaitForSeconds (waveWait);
 		}
+	}
+
+	public void AddScore(int newScoreValue)
+	{
+		score += newScoreValue;
+		UpdateScore ();
+	}
+
+	//atualiza texto da pontuação
+	void UpdateScore()
+	{
+		scoreText.text = "Score: " + score;
 	}
 }

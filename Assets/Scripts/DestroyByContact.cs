@@ -6,6 +6,23 @@ public class DestroyByContact : MonoBehaviour {
 
 	public GameObject explosion;
 	public GameObject playerExplosion;
+	public int scoreValue;
+
+	private GameController gameController;
+
+	void Start()
+	{
+		//busca a instancia de Game Controller
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		//se encontrou, pegar essa referência
+		if (gameControllerObject != null) {
+			gameController = gameControllerObject.GetComponent<GameController>();
+		}
+		//se a referência não foi pega, então exibir mensagem de log
+		if (gameController == null) {
+			Debug.Log ("Não foi possível encontrar o script 'GameController'.");
+		}
+	}
 
 	void OnTriggerEnter(Collider other)
 	{
@@ -20,6 +37,9 @@ public class DestroyByContact : MonoBehaviour {
 		//se quem colidiu foi o jogador
 		if (other.CompareTag ("Player"))
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation); //instancia explosão do jogador
+
+		//add pontos
+		gameController.AddScore (scoreValue);
 
 		//destrói o tiro e o asteróide
 		//desde que esteja no mesmo frame, não importa a ordem que o Destroy é utilizado: o objeto não é destruído imediatamente,
