@@ -36,7 +36,10 @@ public class DestroyByContact : MonoBehaviour {
 
 		//se quem colidiu foi o jogador
 		if (other.CompareTag ("Player"))
+		{
 			Instantiate (playerExplosion, other.transform.position, other.transform.rotation); //instancia explosão do jogador
+			gameController.GameOver(); //ativa o Game Over
+		}
 
 		//add pontos
 		gameController.AddScore (scoreValue);
