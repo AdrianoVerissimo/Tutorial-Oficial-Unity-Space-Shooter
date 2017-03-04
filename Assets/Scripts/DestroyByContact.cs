@@ -15,11 +15,13 @@ public class DestroyByContact : MonoBehaviour {
 		//busca a instancia de Game Controller
 		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
 		//se encontrou, pegar essa referência
-		if (gameControllerObject != null) {
+		if (gameControllerObject != null)
+		{
 			gameController = gameControllerObject.GetComponent<GameController>();
 		}
 		//se a referência não foi pega, então exibir mensagem de log
-		if (gameController == null) {
+		if (gameController == null)
+		{
 			Debug.Log ("Não foi possível encontrar o script 'GameController'.");
 		}
 	}
@@ -29,10 +31,13 @@ public class DestroyByContact : MonoBehaviour {
 		//Debug.Log (other.name); //exibe no console nome do objeto que destruiu o asteróide
 
 		//se colidir com boundary, abortar script
-		if (other.CompareTag ("Boundary"))
+		if (other.CompareTag ("Boundary") || other.CompareTag("Enemy"))
 			return;
 
-		Instantiate (explosion, transform.position, transform.rotation); //instancia explosão
+		if (explosion != null)
+		{
+			Instantiate (explosion, transform.position, transform.rotation); //instancia explosão
+		}
 
 		//se quem colidiu foi o jogador
 		if (other.CompareTag ("Player"))
